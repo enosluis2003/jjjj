@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎉 Comemoração Especial</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      text-align: center;
+    }
+
+    .container {
+      z-index: 10;
+      max-width: 90%;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #ff0066;
+      text-shadow: 0 0 10px #ff00cc;
+      animation: pulse 2s infinite;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .image-frame {
+      margin: 20px auto;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid #ff0066;
+      box-shadow: 0 0 20px #ff00cc;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Animações */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Estrelas caindo */
+    .shooting-star {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 2px #fff;
+      opacity: 0;
+      animation: travel 3s linear infinite;
+    }
+
+    @keyframes travel {
+      0% {
+        transform: translate(0, 0) rotate(45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(2000px, 2000px) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Botão de som */
+    .sound-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff0066;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 0, 102, 0.7);
+      z-index: 100;
+      animation: pulse 1.5s infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Conteúdo principal -->
+  <div class="container">
+    <h1>Saudades de estar cntg! ❤️</h1>
+    <p>Quero ver seus peitos.❤️</p>
+    
+    <!-- Imagem circular -->
+    <div class="image-frame">
+      <img src="opa.jpg" alt="Imagem especial">
+    </div>
+
+    <p>Com todo carinho, <br><strong>para você! ❤️</strong></p>
+  </div>
+
+  <!-- Botão de som -->
+  <div class="sound-btn" id="soundButton">🔊</div>
+
+  <!-- Áudio (vai tocar ao clicar) -->
+  <audio id="backgroundMusic" loop>
+    <source src="vss.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    // Criar estrelas caindo
+    function createStars() {
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const star = document.createElement('div');
+          star.classList.add('shooting-star');
+          star.style.left = Math.random() * 100 + 'vw';
+          star.style.top = Math.random() * 100 + 'vh';
+          document.body.appendChild(star);
+
+          // Remover estrela após animação
+          setTimeout(() => {
+            star.remove();
+          }, 3000);
+        }, i * 300);
+      }
+    }
+
+    // Repetir estrelas
+    setInterval(createStars, 9000);
+    createStars(); // Primeira rodada
+
+    // Controle de som
+    const soundButton = document.getElementById('soundButton');
+    const audio = document.getElementById('backgroundMusic');
+    let isPlaying = false;
+
+    soundButton.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        soundButton.innerHTML = '🔇';
+      } else {
+        audio.play().catch(e => alert("Por favor, clique no botão para tocar a música."));
+        soundButton.innerHTML = '🔊';
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // Tocar música ao interagir (necessário em alguns navegadores)
+    document.body.addEventListener('click', () => {
+      if (!isPlaying) {
+        audio.play().catch(() => {});
+        isPlaying = true;
+        soundButton.innerHTML = '🔊';
+      }
+    }, { once: true });
+  </script>
+
+</body>
+</html>
